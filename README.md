@@ -2,6 +2,12 @@
 
 Network is a lightweight library for performing http requests.
 
+## Installation
+
+```
+composer require vAlmaraz/php-network
+```
+
 ## Usage
 
 ```php
