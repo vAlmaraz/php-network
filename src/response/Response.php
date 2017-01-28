@@ -1,12 +1,12 @@
 <?php
-namespace network\entities;
+namespace vAlmaraz\network\response;
 
 /**
  * Created by vAlmaraz.
  * Date: 27/01/2017
  * Time: 19:44
  */
-class NetworkResponse {
+class Response {
 
     /**
      * @var int

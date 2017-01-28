@@ -1,18 +1,20 @@
 <?php
-namespace network\entities;
+namespace vAlmaraz\network\request;
+use vAlmaraz\network\exception\NetworkException;
+use vAlmaraz\network\response\Response;
 
 /**
  * Created by vAlmaraz.
  * Date: 27/01/2017
  * Time: 19:44
  */
-class NetworkRequest {
+class Request {
 
     const VERB_GET = 'GET';
     const VERB_POST = 'POST';
     const VERB_PUT = 'PUT';
     const VERB_DELETE = 'DELETE';
-    const VERBS = [NetworkRequest::VERB_GET, NetworkRequest::VERB_POST, NetworkRequest::VERB_PUT, NetworkRequest::VERB_DELETE];
+    const VERBS = [Request::VERB_GET, Request::VERB_POST, Request::VERB_PUT, Request::VERB_DELETE];
 
     /**
      * @var string
@@ -79,7 +81,7 @@ class NetworkRequest {
     }
 
     /**
-     * @return NetworkResponse
+     * @return Response
      */
     public function execute() {
         $ch = curl_init();
@@ -107,6 +109,6 @@ class NetworkRequest {
         $headers = substr($response, 0, $headerSize);
         $body = substr($response, $headerSize, strlen($response));
         curl_close($ch);
-        return new NetworkResponse($responseStatusCode, $headers, $body);
+        return new Response($responseStatusCode, $headers, $body);
     }
 }

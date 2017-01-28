@@ -5,7 +5,7 @@ Network is a lightweight library for performing http requests.
 ## Usage
 
 ```php
-use network\Network;
+use vAlmaraz\network\Network;
 
 // Set URL and execute request
 $response = Network::get($url)->execute();
@@ -17,7 +17,7 @@ echo $response->getBody();
 ## Advanced Usage
 
 ```php
-use network\Network;
+use vAlmaraz\network\Network;
 
 // Configure request
 $response = Network::post($url)

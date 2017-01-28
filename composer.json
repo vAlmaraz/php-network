@@ -1,0 +1,22 @@
+{
+  "name": "valmaraz/php-network",
+  "description": "Network - A lightweight library for performing HTTP requests",
+  "type": "library",
+  "keywords": ["network", "request", "curl", "http"],
+  "homepage": "https://github.com/vAlmaraz/php-network",
+  "require": {
+    "php": ">= 5.4"
+  },
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Víctor Almaraz",
+      "email": "support@valmaraz.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "vAlmaraz\\network\\": "src"
+    }
+  }
+}

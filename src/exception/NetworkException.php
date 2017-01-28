@@ -1,5 +1,5 @@
 <?php
-namespace network\entities;
+namespace vAlmaraz\network\exception;
 use RuntimeException;
 
 /**
