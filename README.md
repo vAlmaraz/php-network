@@ -1,5 +1,7 @@
 # Network
 
+[![Packagist](https://img.shields.io/packagist/dt/vAlmaraz/php-network.svg)](https://packagist.org/packages/valmaraz/php-network) [![Packagist](https://img.shields.io/packagist/v/vAlmaraz/php-network.svg)](https://packagist.org/packages/valmaraz/php-network) [![Packagist](https://img.shields.io/packagist/l/doctrine/orm.svg)](https://packagist.org/packages/valmaraz/php-network)
+
 Network is a lightweight library for performing http requests.
 
 ## Installation
