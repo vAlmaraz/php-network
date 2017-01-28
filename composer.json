@@ -1,6 +1,6 @@
 {
   "name": "valmaraz/php-network",
-  "description": "Network - A lightweight library for performing HTTP requests",
+  "description": "Network - A lightweight library to send HTTP requests",
   "type": "library",
   "keywords": ["network", "request", "curl", "http"],
   "homepage": "https://github.com/vAlmaraz/php-network",

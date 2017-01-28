@@ -2,7 +2,7 @@
 
 [![Packagist](https://img.shields.io/packagist/dt/vAlmaraz/php-network.svg)](https://packagist.org/packages/valmaraz/php-network) [![Packagist](https://img.shields.io/packagist/v/vAlmaraz/php-network.svg)](https://packagist.org/packages/valmaraz/php-network) [![Packagist](https://img.shields.io/packagist/l/doctrine/orm.svg)](https://packagist.org/packages/valmaraz/php-network)
 
-Network is a lightweight library for performing http requests.
+Network is a lightweight library to send http requests.
 
 ## Installation
 
@@ -27,8 +27,13 @@ echo $response->getBody();
 ```php
 use vAlmaraz\network\Network;
 
+$timeoutInSeconds = 3;
+$headers = ['Accept' => 'application/json'];
+$formData = ['field1' => 'value1', 'field2' => 'value2'];
+
 // Configure request
 $response = Network::post($url)
+    ->setTimeoutInSeconds($timeoutInSeconds)
     ->withHeaders($headers)
     ->withFormData($formData)
     ->execute();
@@ -37,6 +42,36 @@ $response = Network::post($url)
 echo $response->getStatusCode();
 echo json_encode($response->getHeaders());
 echo $response->getBody();
+```
+
+## Examples
+
+```php
+use vAlmaraz\network\Network;
+
+$network = new Network();
+// GET
+$response = $network->get('https://jsonplaceholder.typicode.com/posts')
+    ->execute();
+// POST
+$response = $network->post('https://jsonplaceholder.typicode.com/posts')
+    ->withFormData(['title' => 'My title', 'body' => 'The body', 'userId' => 123])
+    ->execute();
+// PATCH
+$response = $network->patch('https://jsonplaceholder.typicode.com/posts/1')
+    ->withFormData(['title' => 'A new title'])
+    ->execute();
+// PUT
+$response = $network->put('https://jsonplaceholder.typicode.com/posts/1')
+    ->withFormData(['title' => 'My title', 'body' => 'The body', 'userId' => 123])
+    ->execute();
+// DELETE
+$response = $network->delete('https://jsonplaceholder.typicode.com/posts/1')
+    ->execute();
+
+echo 'Status code: ' . $response->getStatusCode() . PHP_EOL . PHP_EOL;
+echo 'Headers: ' . json_encode($response->getHeaders()) . PHP_EOL . PHP_EOL;
+echo 'Body: ' . $response->getBody();
 ```
 
 ## License

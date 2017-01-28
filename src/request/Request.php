@@ -1,5 +1,6 @@
 <?php
 namespace vAlmaraz\network\request;
+
 use vAlmaraz\network\exception\NetworkException;
 use vAlmaraz\network\response\Response;
 
@@ -12,9 +13,10 @@ class Request {
 
     const VERB_GET = 'GET';
     const VERB_POST = 'POST';
+    const VERB_PATCH = 'PATCH';
     const VERB_PUT = 'PUT';
     const VERB_DELETE = 'DELETE';
-    const VERBS = [Request::VERB_GET, Request::VERB_POST, Request::VERB_PUT, Request::VERB_DELETE];
+    const VERBS = [Request::VERB_GET, Request::VERB_POST, Request::VERB_PATCH, Request::VERB_PUT, Request::VERB_DELETE];
 
     /**
      * @var string
@@ -27,7 +29,7 @@ class Request {
     /**
      * @var int
      */
-    private $timeout;
+    private $timeoutInSeconds;
     /**
      * @var array
      */
@@ -57,8 +59,8 @@ class Request {
      * @param int $timeout
      * @return $this
      */
-    public function setTimeout($timeout) {
-        $this->timeout = $timeout;
+    public function setTimeoutInSeconds($timeoutInSeconds) {
+        $this->timeoutInSeconds = $timeoutInSeconds;
         return $this;
     }
 
@@ -76,7 +78,16 @@ class Request {
      * @return $this
      */
     public function withFormData($formData) {
-        $this->body = $formData;
+        if (!is_array($formData)) {
+            throw new NetworkException('Form data must be an array');
+        }
+        $this->body = '';
+        end($formData);
+        $lastKey = key($formData);
+        foreach ($formData as $key => $value) {
+            $this->body .= $key . '=' . $value;
+            $this->body .= $key != $lastKey ? '&' : '';
+        }
         return $this;
     }
 
@@ -91,16 +102,16 @@ class Request {
         if (!empty($this->headers)) {
             curl_setopt($ch, CURLOPT_HTTPHEADER, $this->headers);
         }
-        curl_setopt($ch, CURLOPT_TIMEOUT, $this->timeout);
+        curl_setopt($ch, CURLOPT_TIMEOUT, $this->timeoutInSeconds);
         curl_setopt($ch, CURLOPT_HEADER, true);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        // curl_setopt($s, CURLOPT_MAXREDIRS, $this->_maxRedirects);
-        // curl_setopt($s, CURLOPT_RETURNTRANSFER, true);
-        // curl_setopt($s, CURLOPT_FOLLOWLOCATION, $this->_followlocation);
-        // curl_setopt($s, CURLOPT_COOKIEJAR, $this->_cookieFileLocation);
-        // curl_setopt($s, CURLOPT_COOKIEFILE, $this->_cookieFileLocation);
+        // TODO: configure SSL certificate
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         if ($this->verb == $this::VERB_POST) {
             curl_setopt($ch, CURLOPT_POST, true);
+        }
+        if (!empty($this->body)) {
             curl_setopt($ch, CURLOPT_POSTFIELDS, $this->body);
         }
         $response = curl_exec($ch);

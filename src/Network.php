@@ -21,6 +21,10 @@ class Network {
         return new Request($url, Request::VERB_POST);
     }
 
+    public static function patch($url) {
+        return new Request($url, Request::VERB_PATCH);
+    }
+
     public static function put($url) {
         return new Request($url, Request::VERB_PUT);
     }
